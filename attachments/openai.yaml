@@ -1,0 +1,4 @@
+interface:
+  display_name: "ART Prompt Architect"
+  short_description: "Turn rough ideas into copy-ready ART prompts"
+  default_prompt: "Use $art-prompt-architect to expand my idea into a detailed prompt using Act As, Request, and Terms."

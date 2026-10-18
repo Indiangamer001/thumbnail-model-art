@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "ART Prompt Architect",
+      "hasCanvas": false,
+      "bodyTextLen": 589,
+      "bodyTextHash": "eaca1abb0710103a8fbdbf214d34380e5c6f3ea3262845d981d7b58f42c7ca7f",
+      "bodyTextPrefix": "ART Prompt Architect ACT AS/REQUEST/TERMS THE BRIEF What should ",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "ART Prompt Architect",
+      "hasCanvas": false,
+      "bodyTextLen": 568,
+      "bodyTextHash": "31c5697704cd1c9b8160f617cdd0c1bc1a11795347ce3ba0c1c4b5f40a4d0678",
+      "bodyTextPrefix": "ART Prompt Architect THE BRIEF What should the model do? A rough",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}
