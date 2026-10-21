@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --font-sans: "Outfit", "Avenir Next", system-ui, sans-serif;
@@ -26,6 +28,21 @@
   --tracking-display: -0.03em;
 }
 
+html.dark {
+  --color-background: #121110;
+  --color-foreground: #f4f1eb;
+  --color-surface: #1c1b18;
+  --color-muted: #c4beb4;
+  --color-subtle: #9c968c;
+  --color-border: #322f2b;
+  --color-border-strong: #4a453e;
+  --color-primary: #f4f1eb;
+  --color-primary-hover: #e4dfd6;
+  --color-primary-foreground: #141312;
+  --color-danger: #f3b2aa;
+  --color-danger-surface: #3f2622;
+}
+
 :root {
   --motion-quick: 150ms;
   --motion-fast: 250ms;
@@ -39,6 +56,10 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {

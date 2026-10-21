@@ -1,6 +1,7 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
+import { THEME_COLORS, themeBootScript } from "@/lib/theme";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "ART Prompt Architect";
@@ -16,7 +17,7 @@ export const Route = createRootRoute({
         content:
           "Turn a rough idea into a copy-ready prompt using Act As, Request, and Terms.",
       },
-      { name: "theme-color", content: "#f3f1ec" },
+      { name: "theme-color", content: THEME_COLORS.light },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
@@ -38,6 +39,7 @@ export const Route = createRootRoute({
   component: () => (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <HeadContent />
       </head>
       <body>

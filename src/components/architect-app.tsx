@@ -1,5 +1,5 @@
 import { useEffect, useId, useState, type ReactNode } from "react";
-import { Check, Copy, Download, RefreshCw, Trash2 } from "lucide-react";
+import { Check, Copy, Download, Moon, RefreshCw, Sun, Trash2 } from "lucide-react";
 import { composeMarkdown, type ArtPrompt, type LengthMode } from "@/lib/art-format";
 import { expandPrompt } from "@/lib/expand-prompt";
 import {
@@ -9,30 +9,32 @@ import {
   saveHistory,
   type HistoryItem,
 } from "@/lib/prompt-store";
+import { applyTheme, currentTheme, readStoredTheme, type Theme } from "@/lib/theme";
 
 const STARTERS: { id: string; label: string; source: string }[] = [
   {
-    id: "pubg",
-    label: "PUBG smoothness",
-    source: "Give me a prompt to research the best settings for smooth PUBG gameplay.",
+    id: "email",
+    label: "Draft an email",
+    source:
+      "Write a short, polite email to my manager asking to move Thursday's review to next week. I have a conflict, I want to keep the same agenda, and I should offer two new times.",
   },
   {
-    id: "lesson",
-    label: "A lesson",
+    id: "summary",
+    label: "Summarize notes",
     source:
-      "Explain black holes to a curious 12-year-old who likes space documentaries, without a scary tone or fake certainty.",
+      "Turn messy meeting notes into a short summary: what was decided, who owns what, and the open questions. Leave out small talk.",
   },
   {
-    id: "review",
-    label: "Code review",
+    id: "explain",
+    label: "Explain simply",
     source:
-      "Review a React pull request for bugs, accessibility, and unnecessary complexity. The stack is TanStack Start and Tailwind.",
+      "Explain how interest on a credit card works to someone who has never had one, without jargon or a sales pitch.",
   },
   {
-    id: "voice",
-    label: "Brand voice",
+    id: "plan",
+    label: "Make a plan",
     source:
-      "Turn these notes into a prompt that writes a homepage hero for a small ceramics studio: handmade, slow, not luxury-snob, ships in the US.",
+      "Plan a 4-week beginner running plan for someone who can walk 30 minutes but has not run before. Three days a week, no gym, and say when to rest.",
   },
 ];
 
@@ -97,6 +99,24 @@ export function ArchitectApp() {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
   const [contextOpen, setContextOpen] = useState(false);
+  const [theme, setTheme] = useState<Theme>("light");
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    function resolve() {
+      const stored = readStoredTheme();
+      const next: Theme = stored ?? (media.matches ? "dark" : "light");
+      applyTheme(next, false);
+      setTheme(next);
+    }
+    resolve();
+    function onSchemeChange() {
+      if (readStoredTheme()) return;
+      resolve();
+    }
+    media.addEventListener("change", onSchemeChange);
+    return () => media.removeEventListener("change", onSchemeChange);
+  }, []);
 
   useEffect(() => {
     const draft = loadDraft();
@@ -218,6 +238,12 @@ export function ArchitectApp() {
     URL.revokeObjectURL(url);
   }
 
+  function toggleTheme() {
+    const next: Theme = currentTheme() === "dark" ? "light" : "dark";
+    applyTheme(next, true);
+    setTheme(next);
+  }
+
   const words = wordCount(source);
   const canCompose = source.trim().length >= 8 && !pending;
   const markdown = prompt ? composeMarkdown(prompt) : "";
@@ -225,20 +251,32 @@ export function ArchitectApp() {
   return (
     <div className="flex min-h-dvh flex-col lg:h-dvh lg:overflow-hidden">
       <header className="shrink-0 border-b border-border">
-        <div className="mx-auto flex max-w-6xl items-end justify-between gap-4 px-5 py-5 sm:px-8">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-5 sm:px-8">
           <div>
             <p className="font-display text-3xl leading-none tracking-display text-foreground">
               ART
             </p>
             <p className="mt-1 text-sm text-muted">Prompt Architect</p>
           </div>
-          <p className="hidden pb-1 text-right text-xs tracking-kicker text-muted uppercase sm:block">
-            Act as
-            <span className="px-2 text-subtle">/</span>
-            Request
-            <span className="px-2 text-subtle">/</span>
-            Terms
-          </p>
+          <div className="flex items-center gap-3 pb-0.5">
+            <p className="hidden text-right text-xs tracking-kicker text-muted uppercase sm:block">
+              Act as
+              <span className="px-2 text-subtle">/</span>
+              Request
+              <span className="px-2 text-subtle">/</span>
+              Terms
+            </p>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-pressed={theme === "dark"}
+              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              className="inline-flex size-11 items-center justify-center rounded-md border border-border-strong text-foreground transition-colors duration-150 hover:bg-surface"
+            >
+              <Sun className="hidden size-4 dark:block" aria-hidden="true" />
+              <Moon className="size-4 dark:hidden" aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </header>
 
